@@ -31,6 +31,12 @@
 #define PEOPLE_SHINOVAC 7
 #define PEOPLE_ASTRA 2
 #define SOLIDER_ASTRA 10
+#define SOLIDER_Pfizer 10
+#define PEOPLE_MODERNA 2
+#define PEOPLE_SIAS 37
+#define PEOPLE_ASPRI 6
+#define PEOPLE_UNVAC 26
+#define PEOPLE_INFECT 1
 #define DURATION 10.0    // เวลาจำลอง 10 วินาที
 #define X_BOX 100        // กว้างแนวนอน
 #define Y_BOX 50         // กว้างแนวตั้ง
