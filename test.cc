@@ -56,15 +56,15 @@ struct rgb
 };
 
 struct rgb colors[] = {
-    {255, 0, 0},   // sinovac 2 ประชาชน 7คน
+    {255, 0, 0},     // sinovac 2 ประชาชน 7คน
     {255, 255, 0},   // astra 2 ประชาชน 2คน
-    {127, 255, 46}, // sol astra 10 คน
-    {252, 44, 44},  // ติดเชื้อ ประชาชน 1คน
+    {127, 255, 46},  // sol astra 10 คน
+    {252, 44, 44},   // ติดเชื้อ ประชาชน 1คน
     {255, 126, 172}, // phizer 2 ทหาร 10 คน
     {135, 190, 219}, // moderna 2 ประชาชน 1 คน
     {216, 133, 219}, // si+as ประชาชน 37 คน
     {162, 218, 143}, // as+phi ประชาชน 6 คน
-    {77, 254, 51}   // unvacc ประชาชน 26คน
+    {77, 254, 51}    // unvacc ประชาชน 26คน
 };
 
 class People
@@ -98,7 +98,7 @@ public:
 };
 
 // สร้างคน 100 คน
-People people(PEOPLE_SHINOVAC, TOTAL_MAN );
+People people(PEOPLE_SHINOVAC, TOTAL_MAN);
 AnimationInterface *pAnim = 0;
 bool is_infected[PEOPLE_SHINOVAC] = {false};
 
@@ -265,20 +265,20 @@ int main(int argc, char *argv[])
     Simulator::Schedule(Seconds(0.00),
                         []()
                         {
-                            for (int z = 1; z < PEOPLE_SHINOVAC + 1; z++)
+                            for (int i = 1; i < PEOPLE_SHINOVAC + 1; i++)
                             {
-                                pAnim->UpdateNodeSize(z, NodeSide, NodeSide);
-                                pAnim->UpdateNodeColor(people.node.Get(z), colors[0].r, colors[0].g, colors[0].b);
+                                pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
+                                pAnim->UpdateNodeColor(people.node.Get(i), colors[0].r, colors[0].g, colors[0].b);
                             }
-                            for (int x = z; x < z +PEOPLE_ASTRA + 1; x++)
+                            for (int i = PEOPLE_SHINOVAC + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + 1; i++)
                             {
-                                pAnim->UpdateNodeSize(x, NodeSide, NodeSide);
-                                pAnim->UpdateNodeColor(people.node.Get(x), colors[1].r, colors[1].g, colors[1].b);
+                                pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
+                                pAnim->UpdateNodeColor(people.node.Get(i), colors[1].r, colors[1].g, colors[1].b);
                             }
-                            for (int c = x c < x + SOLIDER_ASTRA +1; c++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + SOLIDER_ASTRA + 1; i++)
                             {
-                                pAnim->UpdateNodeSize(c, NodeSide, NodeSide);
-                                pAnim->UpdateNodeColor(people.node.Get(c), colors[1].r, colors[1].g, colors[1].b);
+                                pAnim->UpdateNodeSize(9, NodeSide, NodeSide);
+                                pAnim->UpdateNodeColor(people.node.Get(i), colors[2].r, colors[2].g, colors[2].b);
                             }
 
                             // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
