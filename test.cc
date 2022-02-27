@@ -1,3 +1,23 @@
+// หน้าการ = 95 % ลดอัตรการแพร่เชื้อ 90 %
+// วัคซีน =
+// 1. shinovac 2 เข็ม กัน 51% 
+// ประชาชน 7คน    
+// 2. astra 2 เข็มกัน 79% 
+// ประชาชน 2คน 
+// ทหาร 10คน
+// 3. pfizer 2 เข็มกัน 95%  
+// ทหาร 10คน
+// 4. moderna 2  94%
+// ประชาชน 1คน
+// 5. shiv + astra 78%
+// ประชาชน 37คน
+// 6. astra + pfizser 90%
+// ประชาชน  6คน
+// 7. คนติดโควิต
+// ประชาชน 1 คน
+// 8. unvaccineted
+// ประชาชน 26คน 
+
 #include <ostream>
 #include "ns3/applications-module.h"
 #include "ns3/core-module.h"
@@ -5,6 +25,7 @@
 #include "ns3/internet-module.h"
 #include "ns3/mobility-module.h"
 #include "ns3/netanim-module.h"
+
 
 #define DURATION 10.0 // เวลาจำลอง 10 วินาที
 #define N 100 // จำนวนคนทั้งหมด
