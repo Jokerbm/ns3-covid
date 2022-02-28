@@ -152,9 +152,9 @@ void People::setUDPClient(int people_id, Time startTime)
     // if (is_infected[people_id] == false)
     // {
     //     is_infected[people_id] = true;
-    //     apps = client.Install(node.Get(people_id));
-    //     apps.Start(startTime);
-    //     apps.Stop(Seconds(DURATION));
+        apps = client.Install(node.Get(people_id));
+        apps.Start(startTime);
+        apps.Stop(Seconds(DURATION));
     // }
 }
 
