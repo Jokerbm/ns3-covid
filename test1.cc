@@ -100,9 +100,9 @@ public:
 };
 
 // สร้างคน 100 คน
-People people(PEOPLE_SHINOVAC, TOTAL_MAN);
+People people(TOTAL_MAN, 90);
 AnimationInterface *pAnim = 0;
-bool is_infected[PEOPLE_SHINOVAC] = {false};
+bool is_infected[100] = {false};
 
 People::People(int people, int customer)
 {
@@ -110,7 +110,7 @@ People::People(int people, int customer)
     customer_count = customer;
 
     // สร้าง node จำนวน people โหนด
-    node.Create(100);
+    node.Create(people_count);
 
     // ติดตั้ง internet stack
     stack.Install(node);
@@ -124,10 +124,10 @@ void People::setCSMA(int dataRate, int delay, int mtu)
     device = csma.Install(node);
 
     // ตั้งค่า handler กรณีมี packet เข้ามา
-    // NetDeviceContainer::Iterator i;
-    // for (i = device.Begin (); i != device.End (); ++i) {
-    //   (*i)->SetPromiscReceiveCallback (MakeCallback (&People::receiveCOVID, this));  // some NetDevice method
-    // }
+    NetDeviceContainer::Iterator i;
+    for (i = device.Begin (); i != device.End (); ++i) {
+      (*i)->SetPromiscReceiveCallback (MakeCallback (&People::receiveCOVID, this));  // some NetDevice method
+    }
 }
 
 void People::setIPV4(string address, string netmask)
