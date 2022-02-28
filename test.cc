@@ -64,13 +64,14 @@ struct rgb
 struct rgb colors[] = {
     {255, 126, 172}, // sinovac 2 ประชาชน 7คน
     {255, 255, 0},   // astra 2 ประชาชน 2คน
-    {61, 34, 82},    // sol astra 10 คน
-    {40, 71, 55},    // phizer 2 ทหาร 10 คน
+
     {135, 190, 219}, // moderna 2 ประชาชน 1 คน
     {216, 133, 219}, // si+as ประชาชน 37 คน
     {162, 218, 143}, // as+phi ประชาชน 6 คน
     {255, 0, 0},     // people ติดเชื้อ ประชาชน 1คน
     {3, 157, 215}    // unvacc ประชาชน 26คน
+    {61, 34, 82},    // sol astra 10 คน
+    {40, 71, 55},    // phizer 2 ทหาร 10 คน
 };
 
 //node class
@@ -279,58 +280,58 @@ int main(int argc, char *argv[])
 
     // #define PEOPLE_SHINOVAC 7
     // #define PEOPLE_ASTRA 2
-    // #define SOLIDER_ASTRA 10
-    // #define SOLIDER_Pfizer 10
+
     // #define PEOPLE_MODERNA 2
     // #define PEOPLE_SIAS 37
     // #define PEOPLE_ASPRI 6
     // #define PEOPLE_INFECT 1
     // #define PEOPLE_UNVAC 26
-
+    // #define SOLIDER_ASTRA 10
+    // #define SOLIDER_Pfizer 10
     Simulator::Schedule(Seconds(0.00),
                         []()
                         {
-                            for (int i = 0; i < 8; i++)
+                            for (int i = 0; i < PEOPLE_SHINOVAC + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[0].r, colors[0].g, colors[0].b);
                             }
-                            for (int i = 8; i < 10; i++)
+                            for (int i = PEOPLE_SHINOVAC + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[1].r, colors[1].g, colors[1].b);
                             }
-                            for (int i = 10; i < 20; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[2].r, colors[2].g, colors[2].b);
                             }
-                            for (int i = 20; i < 30; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[3].r, colors[3].g, colors[3].b);
                             }
-                            for (int i = 30; i < 32; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI +1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[4].r, colors[4].g, colors[4].b);
                             }
-                            for (int i = 32; i < 69; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[5].r, colors[5].g, colors[5].b);
                             }
-                            for (int i = 69; i < 75; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT +1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[6].r, colors[6].g, colors[6].b);
                             }
-                            for (int i = 75; i < 76; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[7].r, colors[7].g, colors[7].b);
                             }
-                            for (int i = 76; i < 101; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + SOLIDER_Pfizer; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
