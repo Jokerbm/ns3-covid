@@ -273,7 +273,7 @@ int main(int argc, char *argv[])
     // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
     // for (int i = 0; i < arr_size; i++)
     // {
-    //     people.setUDPClient(infected_list[i], Seconds(0.0));
+        people.setUDPClient(infected_list[0], Seconds(0.0));
     // }
 
     // #define PEOPLE_SHINOVAC 7
