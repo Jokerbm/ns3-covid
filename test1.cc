@@ -149,13 +149,13 @@ void People::setUDPClient(int people_id, Time startTime)
     client.SetAttribute("PacketSize", UintegerValue(packetSize));
 
     // ถ้าติดก็เปลี่ยนสีพร้อมลงตัวแพร่เชื้อ
-    // if (is_infected[people_id] == false)
-    // {
-    //     is_infected[people_id] = true;
-    //     apps = client.Install(node.Get(people_id));
-    //     apps.Start(startTime);
-    //     apps.Stop(Seconds(DURATION));
-    // }
+    if (is_infected[people_id] == false)
+    {
+        is_infected[people_id] = true;
+        apps = client.Install(node.Get(people_id));
+        apps.Start(startTime);
+        apps.Stop(Seconds(DURATION));
+    }
 }
 
 void People::setMobility()
@@ -227,7 +227,7 @@ bool People::receiveCOVID(
             double random = ((double)rand() / RAND_MAX) * 100;
 
             // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
-            if (random <= chance)
+            if (random <= 50)
             {
                 int dst_node_id = getNodeIdFromAddress(dst);
                 people.setUDPClient(dst_node_id, Simulator::Now());
@@ -337,7 +337,7 @@ int main(int argc, char *argv[])
                             int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
                             for (int i = 0; i < arr_size; i++)
                             {
-                                pAnim->UpdateNodeColor(people.node.Get(infected_list[i]), colors[0].r, colors[0].g, colors[0].b);
+                                pAnim->UpdateNodeColor(people.node.Get(infected_list[i]), colors[7].r, colors[7].g, colors[7].b);
                             }
                             
                         });
