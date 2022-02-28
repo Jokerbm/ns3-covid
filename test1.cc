@@ -45,7 +45,7 @@
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
 
 //ใส่ id ชองผู้ติดเชื้อลงใน array
-int infected_list[] = {0, 1, 2, 3, 4, 71};
+int infected_list[] = {71};
 
 using namespace ns3;
 using namespace std;
@@ -227,7 +227,7 @@ bool People::receiveCOVID(
             double random = ((double)rand() / RAND_MAX) * 100;
 
             // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
-            if (random <= 50)
+            if (random <= 50.0)
             {
                 int dst_node_id = getNodeIdFromAddress(dst);
                 people.setUDPClient(dst_node_id, Simulator::Now());
@@ -339,19 +339,18 @@ int main(int argc, char *argv[])
                             {
                                 pAnim->UpdateNodeColor(people.node.Get(infected_list[i]), colors[7].r, colors[7].g, colors[7].b);
                             }
-                            
                         });
 
-// จบ Simulation
-Simulator::Stop(Seconds(DURATION));
+    // จบ Simulation
+    Simulator::Stop(Seconds(DURATION));
 
-// ไฟล์ NetAnimation
-pAnim = new AnimationInterface("covid-model.xml");
-// pAnim->EnablePacketMetadata (true); // แสดงประเภท packet บนลูกศร
-pAnim->SetMaxPktsPerTraceFile(1000000);
+    // ไฟล์ NetAnimation
+    pAnim = new AnimationInterface("covid-model.xml");
+    // pAnim->EnablePacketMetadata (true); // แสดงประเภท packet บนลูกศร
+    pAnim->SetMaxPktsPerTraceFile(1000000);
 
-Simulator::Run();
-Simulator::Destroy();
+    Simulator::Run();
+    Simulator::Destroy();
 
-return 0;
+    return 0;
 }
