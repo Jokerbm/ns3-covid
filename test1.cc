@@ -270,11 +270,11 @@ int main(int argc, char *argv[])
     people.setMobility();
 
     // ตั้ง udp client ตัวแพร่เชื้อ -> คนที่ติดเชื้อ
-    int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
-    for (int i = 0; i < arr_size; i++)
-    {
-        people.setUDPClient(infected_list[i], Seconds(0.0));
-    }
+    // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
+    // for (int i = 0; i < arr_size; i++)
+    // {
+    //     people.setUDPClient(infected_list[i], Seconds(0.0));
+    // }
 
     // #define PEOPLE_SHINOVAC 7
     // #define PEOPLE_ASTRA 2
