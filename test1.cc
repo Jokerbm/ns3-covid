@@ -229,9 +229,9 @@ bool People::receiveCOVID(
             // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
             if (random <= 50.0)
             {
-                int dst_node_id = getNodeIdFromAddress(dst);
-                people.setUDPClient(dst_node_id, Simulator::Now());
-                pAnim->UpdateNodeColor(dst_device->GetNode(), colors[0].r, colors[0].g, colors[0].b);
+                // int dst_node_id = getNodeIdFromAddress(dst);
+                // people.setUDPClient(dst_node_id, Simulator::Now());
+                pAnim->UpdateNodeColor(dst_device->GetNode(), colors[7].r, colors[7].g, colors[7].b);
                 // printf("source (%lf,%lf) -> dest (%lf,%lf) = %lf \n", src_x, src_y, dst_x, dst_y, distance);
             }
         }
