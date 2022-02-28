@@ -44,12 +44,8 @@
 #define INFECTCHANCE 1.5 // โอกาสติด 1.5%
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
 
-// list คนที่อยากให้ติดเชื้อ เลือกค่าใน array ได้ 0 <= infected_list[i] < N
-// โดยท่ีค่า 0 <= infected_list[i] < M จะเป็นลูกค้า
-// โดยท่ีค่า M <= infected_list[i] < N จะเป็นพ่อค้า
-// ex. พ่อค้า = 100, ลูกค้า = 80 ต้องการคนติดเชื้อเป็นลูกค้า 3 คน พ่อค้าอีก 2 คน
-// ก็ใส่ {0, 1, 2, 80, 81} ลงไป
-int infected_list[] = {0, 1, 2, 3, 4};
+//ใส่ id ชองผู้ติดเชื้อลงใน array
+int infected_list[] = {71};
 
 using namespace ns3;
 using namespace std;
