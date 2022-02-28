@@ -39,7 +39,7 @@
 #define PEOPLE_UNVAC 26
 #define DURATION 10.0    // เวลาจำลอง 10 วินาที
 #define X_BOX 100        // กว้างแนวนอน
-#define Y_BOX 50         // กว้างแนวตั้ง
+#define Y_BOX 100         // กว้างแนวตั้ง
 #define INFECTRAD 2      // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
 #define INFECTCHANCE 1.5 // โอกาสติด 1.5%
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
