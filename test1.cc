@@ -58,15 +58,15 @@ struct rgb
 };
 
 struct rgb colors[] = {
-    {255, 126, 172},     // sinovac 2 ประชาชน 7คน
+    {255, 126, 172}, // sinovac 2 ประชาชน 7คน
     {255, 255, 0},   // astra 2 ประชาชน 2คน
-    {61, 34, 82}, // sol astra 10 คน
-    {40, 71, 55}, // phizer 2 ทหาร 10 คน
+    {61, 34, 82},    // sol astra 10 คน
+    {40, 71, 55},    // phizer 2 ทหาร 10 คน
     {135, 190, 219}, // moderna 2 ประชาชน 1 คน
     {216, 133, 219}, // si+as ประชาชน 37 คน
     {162, 218, 143}, // as+phi ประชาชน 6 คน
-	{255, 0, 0}, // people ติดเชื้อ ประชาชน 1คน
-    {3, 157, 215}   // unvacc ประชาชน 26คน
+    {255, 0, 0},     // people ติดเชื้อ ประชาชน 1คน
+    {3, 157, 215}    // unvacc ประชาชน 26คน
 };
 
 class People
@@ -157,92 +157,102 @@ void People::setUDPClient(int people_id, Time startTime)
     // }
 }
 
-// void People::setMobility() {
-//   // การเคลื่อนไหวของลูกค้าที่เดินไป-มา
-//   mobility_move.SetMobilityModel ("ns3::GaussMarkovMobilityModel",
-//     "Bounds", BoxValue (Box (0, X_BOX, 0, Y_BOX, 0, 10)),
-//     "TimeStep", TimeValue (MilliSeconds (10)),
-//     "Alpha", DoubleValue (0.85),
-//     "MeanVelocity", StringValue ("ns3::UniformRandomVariable[Min=50|Max=100]"),
-//     "MeanDirection", StringValue ("ns3::UniformRandomVariable[Min=0|Max=6.283185307]"),
-//     "MeanPitch", StringValue ("ns3::UniformRandomVariable[Min=0.05|Max=0.05]"),
-//     "NormalVelocity", StringValue ("ns3::NormalRandomVariable[Mean=0.0|Variance=0.0|Bound=0.0]"),
-//     "NormalDirection", StringValue ("ns3::NormalRandomVariable[Mean=0.0|Variance=0.2|Bound=0.4]"),
-//     "NormalPitch", StringValue ("ns3::NormalRandomVariable[Mean=0.0|Variance=0.02|Bound=0.04]"));
-//   mobility_move.SetPositionAllocator ("ns3::RandomBoxPositionAllocator",
-//     "X", StringValue ("ns3::UniformRandomVariable[Min=0|Max=" + to_string(X_BOX) + "]"),
-//     "Y", StringValue ("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
-//     "Z", StringValue ("ns3::UniformRandomVariable[Min=0|Max=10]"));
+void People::setMobility()
+{
+    // การเคลื่อนไหวของลูกค้าที่เดินไป-มา
+    mobility_move.SetMobilityModel("ns3::GaussMarkovMobilityModel",
+                                   "Bounds", BoxValue(Box(0, X_BOX, 0, Y_BOX, 0, 10)),
+                                   "TimeStep", TimeValue(MilliSeconds(10)),
+                                   "Alpha", DoubleValue(0.85),
+                                   "MeanVelocity", StringValue("ns3::UniformRandomVariable[Min=50|Max=100]"),
+                                   "MeanDirection", StringValue("ns3::UniformRandomVariable[Min=0|Max=6.283185307]"),
+                                   "MeanPitch", StringValue("ns3::UniformRandomVariable[Min=0.05|Max=0.05]"),
+                                   "NormalVelocity", StringValue("ns3::NormalRandomVariable[Mean=0.0|Variance=0.0|Bound=0.0]"),
+                                   "NormalDirection", StringValue("ns3::NormalRandomVariable[Mean=0.0|Variance=0.2|Bound=0.4]"),
+                                   "NormalPitch", StringValue("ns3::NormalRandomVariable[Mean=0.0|Variance=0.02|Bound=0.04]"));
+    mobility_move.SetPositionAllocator("ns3::RandomBoxPositionAllocator",
+                                       "X", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(X_BOX) + "]"),
+                                       "Y", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
+                                       "Z", StringValue("ns3::UniformRandomVariable[Min=0|Max=10]"));
 
-//   // การเคลื่อนไหวของพ่อค้าที่ยืนเฝ้าร้านอย่างเดียว
-//   mobility_nomove.SetPositionAllocator ("ns3::RandomBoxPositionAllocator",
-//     "X", StringValue ("ns3::UniformRandomVariable[Min=0|Max=" + to_string(X_BOX) + "]"),
-//     "Y", StringValue ("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
-//     "Z", StringValue ("ns3::UniformRandomVariable[Min=0|Max=10]"));
+    // การเคลื่อนไหวของพ่อค้าที่ยืนเฝ้าร้านอย่างเดียว
+    mobility_nomove.SetPositionAllocator("ns3::RandomBoxPositionAllocator",
+                                         "X", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(X_BOX) + "]"),
+                                         "Y", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
+                                         "Z", StringValue("ns3::UniformRandomVariable[Min=0|Max=10]"));
 
-//   for (int i = 0; i < customer_count; i++) {
-//     mobility_move.Install (node.Get (i));
-//   } for (int i = customer_count; i < people_count; i++) {
-//     mobility_nomove.Install (node.Get (i));
-//   }
-// }
+    for (int i = 0; i < customer_count; i++)
+    {
+        mobility_move.Install(node.Get(i));
+    }
+    for (int i = customer_count; i < people_count; i++)
+    {
+        mobility_nomove.Install(node.Get(i));
+    }
+}
 
 // ถ้าได้รับ packet จะมาทำ function นี้ ใช้คำนวณโอกาสติดได้
-// bool People::receiveCOVID (
-//     Ptr<NetDevice> dst_device,
-//     Ptr<const Packet> packet,
-//     uint16_t protocol,
-//     const Address &src,
-//     const Address &dst,
-//     BridgeNetDevice::PacketType packetType) {
+bool People::receiveCOVID(
+    Ptr<NetDevice> dst_device,
+    Ptr<const Packet> packet,
+    uint16_t protocol,
+    const Address &src,
+    const Address &dst,
+    BridgeNetDevice::PacketType packetType)
+{
 
-//   // เช็คดูว่าเป็น UDP ไหม (ดูขนาด packet) เพื่อกรอง arp ออก
-//   if (packet->GetSize() > 1000) {
-//     // คำนวณโอกาสติด
-//     // เอา pos จาก device ปลายทาง
-//     // Packet::EnablePrinting();
-//     // packet->Print(cout);
+    // เช็คดูว่าเป็น UDP ไหม (ดูขนาด packet) เพื่อกรอง arp ออก
+    if (packet->GetSize() > 1000)
+    {
+        // คำนวณโอกาสติด
+        // เอา pos จาก device ปลายทาง
+        // Packet::EnablePrinting();
+        // packet->Print(cout);
 
-//     // ดึง pos (x,y) ของต้นทางและปลายทางมาคำนวณระยะห่าง ยิ่งใกล้ยิ่งติดง่าย
-//     Ptr<MobilityModel> dst_mob = dst_device->GetNode()->GetObject<MobilityModel>();
-//     double dst_x = dst_mob->GetPosition().x;
-//     double dst_y = dst_mob->GetPosition().y;
+        // ดึง pos (x,y) ของต้นทางและปลายทางมาคำนวณระยะห่าง ยิ่งใกล้ยิ่งติดง่าย
+        Ptr<MobilityModel> dst_mob = dst_device->GetNode()->GetObject<MobilityModel>();
+        double dst_x = dst_mob->GetPosition().x;
+        double dst_y = dst_mob->GetPosition().y;
 
-//     Ptr<Node> src_node = node.Get(getNodeIdFromAddress(src));
-//     Ptr<MobilityModel> src_mob = src_node->GetObject<MobilityModel>();
-//     double src_x = src_mob->GetPosition().x;
-//     double src_y = src_mob->GetPosition().y;
+        Ptr<Node> src_node = node.Get(getNodeIdFromAddress(src));
+        Ptr<MobilityModel> src_mob = src_node->GetObject<MobilityModel>();
+        double src_x = src_mob->GetPosition().x;
+        double src_y = src_mob->GetPosition().y;
 
-//     double distance = sqrt(pow(dst_x-src_x, 2) + pow(dst_y-src_y, 2));
-//     if (distance < INFECTRAD) {
-//       double chance = (1 - (distance/INFECTRAD))*INFECTCHANCE; // โอกาสติดโควิด
-//       double random = ((double)rand() / RAND_MAX)*100;
+        double distance = sqrt(pow(dst_x - src_x, 2) + pow(dst_y - src_y, 2));
+        if (distance < INFECTRAD)
+        {
+            double chance = (1 - (distance / INFECTRAD)) * INFECTCHANCE; // โอกาสติดโควิด
+            double random = ((double)rand() / RAND_MAX) * 100;
 
-//       // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
-//       if (random <= chance) {
-//         int dst_node_id = getNodeIdFromAddress(dst);
-//         people.setUDPClient(dst_node_id, Simulator::Now());
-//         pAnim->UpdateNodeColor (dst_device->GetNode(), colors[0].r, colors[0].g, colors[0].b);
-//         // printf("source (%lf,%lf) -> dest (%lf,%lf) = %lf \n", src_x, src_y, dst_x, dst_y, distance);
-//       }
+            // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
+            if (random <= chance)
+            {
+                int dst_node_id = getNodeIdFromAddress(dst);
+                people.setUDPClient(dst_node_id, Simulator::Now());
+                pAnim->UpdateNodeColor(dst_device->GetNode(), colors[0].r, colors[0].g, colors[0].b);
+                // printf("source (%lf,%lf) -> dest (%lf,%lf) = %lf \n", src_x, src_y, dst_x, dst_y, distance);
+            }
+        }
+    }
 
-//     }
-//   }
+    return true;
+}
 
-//   return true;
-// }
-
-// int People::getNodeIdFromAddress(const Address &address) {
-//   // เอา mac address มาหาว่าเป็น node ไหนเพื่อไปดึง pos(x, y)
-//   int found = 0;
-//   for (int i = 0; i < 100; i++) {
-//     if (operator == (address, node.Get(i)->GetDevice(1)->GetAddress())) {
-//       found = i;
-//       break;
-//     }
-//   }
-//   return found;
-// }
+int People::getNodeIdFromAddress(const Address &address)
+{
+    // เอา mac address มาหาว่าเป็น node ไหนเพื่อไปดึง pos(x, y)
+    int found = 0;
+    for (int i = 0; i < 100; i++)
+    {
+        if (operator==(address, node.Get(i)->GetDevice(1)->GetAddress()))
+        {
+            found = i;
+            break;
+        }
+    }
+    return found;
+}
 
 int main(int argc, char *argv[])
 {
@@ -256,23 +266,24 @@ int main(int argc, char *argv[])
     people.setIPV4("10.10.100.0", "255.255.255.0");
 
     // แยกพ่อค้ากับลูกค้า (เคลื่อนไหวได้กับไม่ได้)
-    // people.setMobility();
+    people.setMobility();
 
     // ตั้ง udp client ตัวแพร่เชื้อ -> คนที่ติดเชื้อ
-    // int arr_size = sizeof(infected_list)/sizeof(infected_list[0]);
-    // for (int i = 0; i < arr_size; i++) {
-    //   people.setUDPClient(infected_list[i], Seconds(0.0));
-    // }
+    int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
+    for (int i = 0; i < arr_size; i++)
+    {
+        people.setUDPClient(infected_list[i], Seconds(0.0));
+    }
 
-// #define PEOPLE_SHINOVAC 7
-// #define PEOPLE_ASTRA 2
-// #define SOLIDER_ASTRA 10
-// #define SOLIDER_Pfizer 10
-// #define PEOPLE_MODERNA 2
-// #define PEOPLE_SIAS 37
-// #define PEOPLE_ASPRI 6
-// #define PEOPLE_INFECT 1
-// #define PEOPLE_UNVAC 26
+    // #define PEOPLE_SHINOVAC 7
+    // #define PEOPLE_ASTRA 2
+    // #define SOLIDER_ASTRA 10
+    // #define SOLIDER_Pfizer 10
+    // #define PEOPLE_MODERNA 2
+    // #define PEOPLE_SIAS 37
+    // #define PEOPLE_ASPRI 6
+    // #define PEOPLE_INFECT 1
+    // #define PEOPLE_UNVAC 26
 
     Simulator::Schedule(Seconds(0.00),
                         []()
@@ -322,13 +333,6 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
                             }
-
-
-                            // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
-                            // for (int i = 0; i < arr_size; i++)
-                            // {
-                            //     pAnim->UpdateNodeColor(people.node.Get(infected_list[i]), colors[0].r, colors[0].g, colors[0].b);
-                            // }
                         });
 
     // จบ Simulation
