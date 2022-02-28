@@ -102,7 +102,7 @@ public:
 // สร้างคน 100 คน
 People people(TOTAL_MAN, 90);
 AnimationInterface *pAnim = 0;
-// bool is_infected[0] = {false};
+bool is_infected[TOTAL_MAN] = {false};
 
 People::People(int people, int customer)
 {
@@ -150,12 +150,11 @@ void People::setUDPClient(int people_id, Time startTime)
 
     // ถ้าติดก็เปลี่ยนสีพร้อมลงตัวแพร่เชื้อ
     // if (is_infected[people_id] == false)
-    //  if (people_id == 74)
     // {
-        // is_infected[people_id] = true;
-        apps = client.Install(node.Get(people_id));
-        apps.Start(startTime);
-        apps.Stop(Seconds(DURATION));
+    //     is_infected[people_id] = true;
+    //     apps = client.Install(node.Get(people_id));
+    //     apps.Start(startTime);
+    //     apps.Stop(Seconds(DURATION));
     // }
 }
 
@@ -274,7 +273,7 @@ int main(int argc, char *argv[])
     // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
     // for (int i = 0; i < arr_size; i++)
     // {
-        people.setUDPClient(1, Seconds(0.0));
+        people.setUDPClient(74, Seconds(0.0));
     // }
 
     // #define PEOPLE_SHINOVAC 7
