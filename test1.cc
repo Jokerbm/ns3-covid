@@ -45,7 +45,7 @@
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
 
 //ใส่ id ชองผู้ติดเชื้อลงใน array
-int infected_list[] = {71};
+int infected_list[] = {0, 1, 2, 3, 4, 71};
 
 using namespace ns3;
 using namespace std;
@@ -125,8 +125,9 @@ void People::setCSMA(int dataRate, int delay, int mtu)
 
     // ตั้งค่า handler กรณีมี packet เข้ามา
     NetDeviceContainer::Iterator i;
-    for (i = device.Begin (); i != device.End (); ++i) {
-      (*i)->SetPromiscReceiveCallback (MakeCallback (&People::receiveCOVID, this));  // some NetDevice method
+    for (i = device.Begin(); i != device.End(); ++i)
+    {
+        (*i)->SetPromiscReceiveCallback(MakeCallback(&People::receiveCOVID, this)); // some NetDevice method
     }
 }
 
@@ -333,18 +334,24 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
                             }
+                            int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
+                            for (int i = 0; i < arr_size; i++)
+                            {
+                                pAnim->UpdateNodeColor(people.node.Get(infected_list[i]), colors[0].r, colors[0].g, colors[0].b);
+                            }
+                            
                         });
 
-    // จบ Simulation
-    Simulator::Stop(Seconds(DURATION));
+// จบ Simulation
+Simulator::Stop(Seconds(DURATION));
 
-    // ไฟล์ NetAnimation
-    pAnim = new AnimationInterface("covid-model.xml");
-    // pAnim->EnablePacketMetadata (true); // แสดงประเภท packet บนลูกศร
-    pAnim->SetMaxPktsPerTraceFile(1000000);
+// ไฟล์ NetAnimation
+pAnim = new AnimationInterface("covid-model.xml");
+// pAnim->EnablePacketMetadata (true); // แสดงประเภท packet บนลูกศร
+pAnim->SetMaxPktsPerTraceFile(1000000);
 
-    Simulator::Run();
-    Simulator::Destroy();
+Simulator::Run();
+Simulator::Destroy();
 
-    return 0;
+return 0;
 }
