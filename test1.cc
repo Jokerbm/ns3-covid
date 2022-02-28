@@ -37,19 +37,23 @@
 #define PEOPLE_ASPRI 6
 #define PEOPLE_INFECT 2
 #define PEOPLE_UNVAC 25
-#define DURATION 10.0    // เวลาจำลอง 10 วินาที
-#define X_BOX 100        // กว้างแนวนอน
-#define Y_BOX 100        // กว้างแนวตั้ง
+#define DURATION 10.0   
+#define X_BOX 100        
+#define Y_BOX 100      
+#define NodeSide 3.0    
+
 #define INFECTRAD 2      // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
 #define INFECTCHANCE 1.5 // โอกาสติด 1.5%
-#define NodeSide 3.0     // ขนาดของจุดใน netanim
 
-//ใส่ id ชองผู้ติดเชื้อลงใน array
+   
+
+//id of infected node
 int infected_list[] = {74,75};
 
 using namespace ns3;
 using namespace std;
 
+//set RGB colors
 struct rgb
 {
     uint8_t r;
@@ -69,10 +73,11 @@ struct rgb colors[] = {
     {3, 157, 215}    // unvacc ประชาชน 26คน
 };
 
+//node class
 class People
 {
 public:
-    int people_count, customer_count;
+    int people_count, solider_count;
     NodeContainer node;
     NetDeviceContainer device;
     Address serverAddress;
@@ -84,7 +89,7 @@ public:
     MobilityHelper mobility_move, mobility_nomove;
     uint16_t port = 9;
 
-    People(int people, int customer);
+    People(int people, int solider_count);
     void setCSMA(int dataRate, int delay, int mtu);
     void setIPV4(string address, string netmask);
     void setUDPClient(int people_id, Time startTime);
@@ -100,19 +105,15 @@ public:
 };
 
 // สร้างคน 100 คน
-People people(TOTAL_MAN, 90);
+People people(TOTAL_MAN, 80);
 AnimationInterface *pAnim = 0;
 bool is_infected[TOTAL_MAN] = {false};
 
-People::People(int people, int customer)
+People::People(int people, int solider)
 {
     people_count = people;
-    customer_count = customer;
-
-    // สร้าง node จำนวน people โหนด
+    solider_count = solider;
     node.Create(people_count);
-
-    // ติดตั้ง internet stack
     stack.Install(node);
 }
 
@@ -182,11 +183,11 @@ void People::setMobility()
                                          "Y", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
                                          "Z", StringValue("ns3::UniformRandomVariable[Min=0|Max=10]"));
 
-    for (int i = 0; i < customer_count; i++)
+    for (int i = 0; i < solider_count; i++)
     {
         mobility_move.Install(node.Get(i));
     }
-    for (int i = customer_count; i < people_count; i++)
+    for (int i = solider_count; i < people_count; i++)
     {
         mobility_nomove.Install(node.Get(i));
     }
