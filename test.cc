@@ -37,15 +37,15 @@
 #define PEOPLE_ASPRI 6
 #define PEOPLE_INFECT 2
 #define PEOPLE_UNVAC 25
-#define DURATION 10.0   
-#define X_BOX 100        
-#define Y_BOX 100      
-#define NodeSide 3.0    
+#define DURATION 10.0
+#define X_BOX 100
+#define Y_BOX 100
+#define NodeSide 3.0
 
 #define INFECTRAD 2      // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
 #define INFECTCHANCE 1.5 // โอกาสติด 1.5%
 
-   
+
 
 //id of infected node
 int infected_list[] = {74,75};
@@ -331,7 +331,7 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[7].r, colors[7].g, colors[7].b);
                             }
-                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + SOLIDER_Pfizer; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + SOLIDER_Pfizer; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
