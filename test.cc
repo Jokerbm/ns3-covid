@@ -64,14 +64,13 @@ struct rgb
 struct rgb colors[] = {
     {255, 126, 172}, // sinovac 2 ประชาชน 7คน
     {255, 255, 0},   // astra 2 ประชาชน 2คน
-
+    {61, 34, 82},    // sol astra 10 คน
+    {40, 71, 55},    // phizer 2 ทหาร 10 คน
     {135, 190, 219}, // moderna 2 ประชาชน 1 คน
     {216, 133, 219}, // si+as ประชาชน 37 คน
     {162, 218, 143}, // as+phi ประชาชน 6 คน
     {255, 0, 0},     // people ติดเชื้อ ประชาชน 1คน
     {3, 157, 215}    // unvacc ประชาชน 26คน
-    {61, 34, 82},    // sol astra 10 คน
-    {40, 71, 55},    // phizer 2 ทหาร 10 คน
 };
 
 //node class
@@ -287,7 +286,7 @@ int main(int argc, char *argv[])
     // #define PEOPLE_ASPRI 6
     // #define PEOPLE_INFECT 1
     // #define PEOPLE_UNVAC 26
-   
+
     Simulator::Schedule(Seconds(0.00),
                         []()
                         {
@@ -326,20 +325,16 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[6].r, colors[6].g, colors[6].b);
                             }
-                            for (int i = 75; i < 76 i++)
+                            for (int i = 75; i < 76; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[7].r, colors[7].g, colors[7].b);
                             }
-                            for (int i = 76; i < 102; i++)
+                            for (int i = 76; i < 101; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
                             }
-                            
-
-
-
                             int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
                             for (int i = 0; i < arr_size; i++)
                             {
