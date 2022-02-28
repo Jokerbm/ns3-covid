@@ -39,7 +39,7 @@
 #define PEOPLE_UNVAC 26
 #define DURATION 10.0    // เวลาจำลอง 10 วินาที
 #define X_BOX 100        // กว้างแนวนอน
-#define Y_BOX 100         // กว้างแนวตั้ง
+#define Y_BOX 50         // กว้างแนวตั้ง
 #define INFECTRAD 2      // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
 #define INFECTCHANCE 1.5 // โอกาสติด 1.5%
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
@@ -334,11 +334,11 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
                             }
-                            int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
-                            for (int i = 1; i < arr_size; i++)
-                            {
-                                pAnim->UpdateNodeColor(people.node.Get(infected_list[i]), colors[7].r, colors[7].g, colors[7].b);
-                            }
+                            // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
+                            // for (int i = 0; i < arr_size; i++)
+                            // {
+                            //     pAnim->UpdateNodeColor(people.node.Get(infected_list[i]), colors[7].r, colors[7].g, colors[7].b);
+                            // }
                         });
 
     // จบ Simulation
