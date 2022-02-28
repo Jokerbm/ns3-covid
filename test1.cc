@@ -150,13 +150,13 @@ void People::setUDPClient(int people_id, Time startTime)
 
     // ถ้าติดก็เปลี่ยนสีพร้อมลงตัวแพร่เชื้อ
     // if (is_infected[people_id] == false)
-     if (people_id == 74)
-    {
+    //  if (people_id == 74)
+    // {
         // is_infected[people_id] = true;
         apps = client.Install(node.Get(people_id));
         apps.Start(startTime);
         apps.Stop(Seconds(DURATION));
-    }
+    // }
 }
 
 void People::setMobility()
