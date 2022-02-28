@@ -102,7 +102,7 @@ public:
 // สร้างคน 100 คน
 People people(TOTAL_MAN, 90);
 AnimationInterface *pAnim = 0;
-bool is_infected[100] = {false};
+bool is_infected[74] = {false};
 
 People::People(int people, int customer)
 {
@@ -149,13 +149,13 @@ void People::setUDPClient(int people_id, Time startTime)
     client.SetAttribute("PacketSize", UintegerValue(packetSize));
 
     // ถ้าติดก็เปลี่ยนสีพร้อมลงตัวแพร่เชื้อ
-    // if (is_infected[people_id] == false)
-    // {
-    //     is_infected[people_id] = true;
-    //     apps = client.Install(node.Get(people_id));
-    //     apps.Start(startTime);
-    //     apps.Stop(Seconds(DURATION));
-    // }
+    if (is_infected[people_id] == false)
+    {
+        is_infected[people_id] = true;
+        apps = client.Install(node.Get(people_id));
+        apps.Start(startTime);
+        apps.Stop(Seconds(DURATION));
+    }
 }
 
 void People::setMobility()
