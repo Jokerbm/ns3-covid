@@ -45,7 +45,7 @@
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
 
 //ใส่ id ชองผู้ติดเชื้อลงใน array
-int infected_list[] = {};
+int infected_list[] = {74};
 
 using namespace ns3;
 using namespace std;
@@ -102,7 +102,7 @@ public:
 // สร้างคน 100 คน
 People people(TOTAL_MAN, 90);
 AnimationInterface *pAnim = 0;
-bool is_infected[74] = {false};
+// bool is_infected[0] = {false};
 
 People::People(int people, int customer)
 {
@@ -149,9 +149,10 @@ void People::setUDPClient(int people_id, Time startTime)
     client.SetAttribute("PacketSize", UintegerValue(packetSize));
 
     // ถ้าติดก็เปลี่ยนสีพร้อมลงตัวแพร่เชื้อ
-    if (is_infected[people_id] == false)
+    // if (is_infected[people_id] == false)
+     if (people_id == 74)
     {
-        is_infected[people_id] = true;
+        // is_infected[people_id] = true;
         apps = client.Install(node.Get(people_id));
         apps.Start(startTime);
         apps.Stop(Seconds(DURATION));
@@ -273,7 +274,7 @@ int main(int argc, char *argv[])
     // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
     // for (int i = 0; i < arr_size; i++)
     // {
-        people.setUDPClient(infected_list[0], Seconds(0.0));
+        people.setUDPClient(74, Seconds(0.0));
     // }
 
     // #define PEOPLE_SHINOVAC 7
