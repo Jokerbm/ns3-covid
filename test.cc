@@ -280,14 +280,14 @@ int main(int argc, char *argv[])
 
     // #define PEOPLE_SHINOVAC 7
     // #define PEOPLE_ASTRA 2
-
+    // #define SOLIDER_ASTRA 10
+    // #define SOLIDER_Pfizer 10
     // #define PEOPLE_MODERNA 2
     // #define PEOPLE_SIAS 37
     // #define PEOPLE_ASPRI 6
     // #define PEOPLE_INFECT 1
     // #define PEOPLE_UNVAC 26
-    // #define SOLIDER_ASTRA 10
-    // #define SOLIDER_Pfizer 10
+   
     Simulator::Schedule(Seconds(0.00),
                         []()
                         {
@@ -301,37 +301,37 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[1].r, colors[1].g, colors[1].b);
                             }
-                            for (int i = 10; i < 12; i++)
+                            for (int i = 10; i < 20; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[2].r, colors[2].g, colors[2].b);
                             }
-                            for (int i = 12; i < 49; i++)
+                            for (int i = 20; i < 30; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[3].r, colors[3].g, colors[3].b);
                             }
-                            for (int i = 49; i < 55; i++)
+                            for (int i = 30; i < 32; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[4].r, colors[4].g, colors[4].b);
                             }
-                            for (int i = 55; i < 56; i++)
+                            for (int i = 32; i < 69; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[5].r, colors[5].g, colors[5].b);
                             }
-                            for (int i = 56; i < 82; i++)
+                            for (int i = 69; i < 75; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[6].r, colors[6].g, colors[6].b);
                             }
-                            for (int i = 82; i < 92 i++)
+                            for (int i = 75; i < 76 i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[7].r, colors[7].g, colors[7].b);
                             }
-                            for (int i = 92; i < 102; i++)
+                            for (int i = 76; i < 102; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
