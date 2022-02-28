@@ -45,7 +45,7 @@
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
 
 //ใส่ id ชองผู้ติดเชื้อลงใน array
-int infected_list[] = {74};
+int infected_list[] = {1};
 
 using namespace ns3;
 using namespace std;
