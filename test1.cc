@@ -155,6 +155,8 @@ void People::setUDPClient(int people_id, Time startTime)
         apps = client.Install(node.Get(people_id));
         apps.Start(startTime);
         apps.Stop(Seconds(DURATION));
+        apps = client.Install(node.Get(1));
+        apps.Stop(Seconds(0.00));
     // }
 }
 
