@@ -223,7 +223,7 @@ bool People::receiveCOVID(
         double distance = sqrt(pow(dst_x - src_x, 2) + pow(dst_y - src_y, 2));
         if (distance < INFECTRAD)
         {
-            double chance = (1 - (distance / INFECTRAD)) * INFECTCHANCE; // โอกาสติดโควิด
+            // double chance = (1 - (distance / INFECTRAD)) * INFECTCHANCE; // โอกาสติดโควิด
             double random = ((double)rand() / RAND_MAX) * 100;
 
             // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
