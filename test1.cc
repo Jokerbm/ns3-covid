@@ -337,7 +337,7 @@ int main(int argc, char *argv[])
                             // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
                             // for (int i = 0; i < arr_size; i++)
                             // {
-                                pAnim->UpdateNodeColor(people.node.Get(infected_list[0]), colors[7].r, colors[7].g, colors[7].b);
+                                // pAnim->UpdateNodeColor(people.node.Get(infected_list[0]), colors[7].r, colors[7].g, colors[7].b);
                             // }
                         });
 
