@@ -35,17 +35,17 @@
 #define PEOPLE_MODERNA 1
 #define PEOPLE_SIAS 37
 #define PEOPLE_ASPRI 6
-#define PEOPLE_INFECT 1
-#define PEOPLE_UNVAC 26
+#define PEOPLE_INFECT 2
+#define PEOPLE_UNVAC 25
 #define DURATION 10.0    // เวลาจำลอง 10 วินาที
 #define X_BOX 100        // กว้างแนวนอน
-#define Y_BOX 100       // กว้างแนวตั้ง
+#define Y_BOX 100        // กว้างแนวตั้ง
 #define INFECTRAD 2      // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
 #define INFECTCHANCE 1.5 // โอกาสติด 1.5%
 #define NodeSide 3.0     // ขนาดของจุดใน netanim
 
 //ใส่ id ชองผู้ติดเชื้อลงใน array
-int infected_list[] = {1};
+int infected_list[] = {74,75};
 
 using namespace ns3;
 using namespace std;
@@ -135,7 +135,7 @@ void People::setIPV4(string address, string netmask)
 {
     ipv4.SetBase(Ipv4Address(address.c_str()), Ipv4Mask(netmask.c_str()));
     interface = ipv4.Assign(device);
-    serverAddress = Address(interface.GetAddress(1));
+    serverAddress = Address(interface.GetAddress(74));
 }
 
 void People::setUDPClient(int people_id, Time startTime)
@@ -149,14 +149,13 @@ void People::setUDPClient(int people_id, Time startTime)
     client.SetAttribute("PacketSize", UintegerValue(packetSize));
 
     // ถ้าติดก็เปลี่ยนสีพร้อมลงตัวแพร่เชื้อ
-    // if (is_infected[people_id] == false)
-    // {
-    //     is_infected[people_id] = true;
+    if (is_infected[people_id] == false)
+    {
+        is_infected[people_id] = true;
         apps = client.Install(node.Get(people_id));
         apps.Start(startTime);
         apps.Stop(Seconds(DURATION));
-     
-    // }
+    }
 }
 
 void People::setMobility()
@@ -271,11 +270,11 @@ int main(int argc, char *argv[])
     people.setMobility();
 
     // ตั้ง udp client ตัวแพร่เชื้อ -> คนที่ติดเชื้อ
-    // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
-    // for (int i = 0; i < arr_size; i++)
-    // {
-        people.setUDPClient(1, Seconds(0.0));
-    // }
+    int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
+    for (int i = 0; i < arr_size; i++)
+    {
+        people.setUDPClient(infected_list[i], Seconds(0.0));
+    }
 
     // #define PEOPLE_SHINOVAC 7
     // #define PEOPLE_ASTRA 2
@@ -335,11 +334,11 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
                             }
-                            // int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
-                            // for (int i = 0; i < arr_size; i++)
-                            // {
-                                // pAnim->UpdateNodeColor(people.node.Get(infected_list[0]), colors[7].r, colors[7].g, colors[7].b);
-                            // }
+                            int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
+                            for (int i = 0; i < arr_size; i++)
+                            {
+                                pAnim->UpdateNodeColor(people.node.Get(infected_list[0]), colors[7].r, colors[7].g, colors[7].b);
+                            }
                         });
 
     // จบ Simulation
