@@ -37,7 +37,7 @@
 #define PEOPLE_ASPRI 6
 #define PEOPLE_INFECT 1
 #define PEOPLE_UNVAC 26
-#define DURATION 10.0
+#define DURATION 100.0
 #define X_BOX 100
 #define Y_BOX 100
 #define NodeSide 3.0
@@ -45,7 +45,7 @@
 #define INFECTRAD 2
 using namespace ns3;
 using namespace std;
-bool infected[] = {};
+bool infected[101];
 int twoshiv = 0;
 int twoastra = 0;
 int twopfizer = 0;
@@ -196,7 +196,11 @@ bool People::receiveCOVID(
     double src_y = src_mob->GetPosition().y;
 
     double distance = sqrt(pow(dst_x - src_x, 2) + pow(dst_y - src_y, 2));
-
+    infected[79] = true;
+    infected[80] = true;
+    infected[85] = true;
+    infected[82] = true;
+    infected[99] = true;
     // เช็คดูว่าเป็น UDP ไหม (ดูขนาด packet) เพื่อกรอง arp ออก
     if (packet->GetSize() > 1000)
     {
@@ -204,28 +208,16 @@ bool People::receiveCOVID(
         double random = ((double)rand() / RAND_MAX) * 100;
         // int dst_node_id = getNodeIdFromAddress(dst);
         int src_node_id = getNodeIdFromAddress(src);
+
         if (distance < INFECTRAD)
         {
-
-            // 2. astra 2 เข็มกัน 79%
-            // ประชาชน 2คน#
-            // ทหาร 10คน
-            // 3. pfizer 2 เข็มกัน 95%
-            // ทหาร 10คน
-            // 6. astra + pfizser 90%
-            // ประชาชน  6คน
-            // 7. คนติดโควิต
-            // ประชาชน 1 คน
-            // 8. unvaccineted
-            // ประชาชน 26คน
-
             if (infected[src_node_id] == false)
             {
                 if (0 <= src_node_id && src_node_id <= 6)
                 {
                     if (random <= 2.45)
                     {
-                        printf("node: %d \n", src_node_id);
+
                         infected[src_node_id] = true;
                         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                         twoshiv++;
@@ -237,7 +229,7 @@ bool People::receiveCOVID(
                     if (random <= 1.05)
                     {
                         twoastra++;
-                        printf("node: %d \n", src_node_id);
+
                         infected[src_node_id] = true;
                         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                     }
@@ -247,7 +239,7 @@ bool People::receiveCOVID(
                     if (random <= 0.3)
                     {
                         twomoderna++;
-                        printf("node: %d \n", src_node_id);
+
                         infected[src_node_id] = true;
                         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                     }
@@ -257,48 +249,53 @@ bool People::receiveCOVID(
                     if (random <= 1.1)
                     {
                         shivastra++;
-                        printf("node: %d \n", src_node_id);
+
                         infected[src_node_id] = true;
                         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                     }
                 }
                 else if (47 <= src_node_id && src_node_id <= 52)
                 {
+
                     if (random <= 0.5)
                     {
-                        printf("node: %d \n", src_node_id);
+                        aspfizer++;
+
                         infected[src_node_id] = true;
                         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                     }
                 }
-                // else if (53 <= src_node_id && src_node_id <= 79)
-                // {
-                //     if (random <= 5.0)
-                //     {
-                //         printf("node: %d \n", src_node_id);
-                //         infected[src_node_id] = true;
-                //         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
-                //         unvac++;
-                //     }
-                // }
-                // else if (80 <= src_node_id && src_node_id <= 89)
-                // {
-                //     if (random <= 1.05)
-                //     {
-                //         printf("node: %d \n", src_node_id);
-                //         infected[src_node_id] = true;
-                //         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
-                //     }
-                // }
-                // else if (90 <= src_node_id && src_node_id <= 99)
-                // {
-                //     if (random <= 0.25)
-                //     {
-                //         printf("node: %d \n", src_node_id);
-                //         infected[src_node_id] = true;
-                //         pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
-                //     }
-                // }
+                else if (53 <= src_node_id && src_node_id <= 79)
+                {
+                    if (random <= 5.0)
+                    {
+
+                        infected[src_node_id] = true;
+                        pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                        unvac++;
+                    }
+                }
+                else if (80 <= src_node_id && src_node_id <= 89)
+                {
+                    if (random <= 1.05)
+                    {
+                        twoastra++;
+
+                        infected[src_node_id] = true;
+                        pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                    }
+                }
+                else if (90 <= src_node_id && src_node_id <= 99)
+                {
+
+                    if (random <= 0.5)
+                    {
+                        twopfizer++;
+
+                        infected[src_node_id] = true;
+                        pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                    }
+                }
             }
         }
     }
@@ -322,6 +319,7 @@ int People::getNodeIdFromAddress(const Address &address)
 
 int main(int argc, char *argv[])
 {
+    printf("\n working \n")
     CommandLine cmd(__FILE__);
     cmd.Parse(argc, argv);
 
@@ -335,7 +333,7 @@ int main(int argc, char *argv[])
     people.setMobility();
 
     // set udp client
-    for (int i = 1; i < 100; i++)
+    for (int i = 0; i < 100; i++)
     {
         if (i != 54)
         {
@@ -406,7 +404,7 @@ int main(int argc, char *argv[])
 
     Simulator::Run();
     Simulator::Destroy();
-    printf("twoshiv : %d\ntwoastra : %d\ntwomoderna : %d\nshivastra : %dunvac : %d\n", twoshiv, twoastra, twomoderna, shivastra, unvac);
+    printf("twoshiv : %d\ntwoastra : %d\ntwomoderna : %d\nshivastra : %d\naspfizer : %d\ntwopfizer : %d\nunvac : %d\n", twoshiv, twoastra, twomoderna, shivastra, aspfizer, twopfizer, unvac);
 
     return 0;
 }
