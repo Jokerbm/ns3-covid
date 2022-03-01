@@ -35,25 +35,21 @@
 #define PEOPLE_MODERNA 1
 #define PEOPLE_SIAS 37
 #define PEOPLE_ASPRI 6
-#define PEOPLE_INFECT 2
-#define PEOPLE_UNVAC 25
+#define PEOPLE_INFECT 1
+#define PEOPLE_UNVAC 26
 #define DURATION 10.0
 #define X_BOX 100
 #define Y_BOX 100
 #define NodeSide 3.0
 
-#define INFECTRAD 2      // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
-#define INFECTCHANCE 1.5 // โอกาสติด 1.5%
-
-
-
-//id of infected node
-int infected_list[] = {74,75};
+#define INFECTRAD 2 // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
+// id of infected node
+// int infected_list[] = {54, 55};
 
 using namespace ns3;
 using namespace std;
 
-//set RGB colors
+// set RGB colors
 struct rgb
 {
     uint8_t r;
@@ -64,17 +60,16 @@ struct rgb
 struct rgb colors[] = {
     {255, 126, 172}, // sinovac 2 ประชาชน 7คน
     {255, 255, 0},   // astra 2 ประชาชน 2คน
-
     {135, 190, 219}, // moderna 2 ประชาชน 1 คน
     {216, 133, 219}, // si+as ประชาชน 37 คน
     {162, 218, 143}, // as+phi ประชาชน 6 คน
-    {255, 0, 0},     // people ติดเชื้อ ประชาชน 1คน
-    {3, 157, 215},    // unvacc ประชาชน 26คน
+    {255, 0, 0},     // people ติดเชื้อ ประชาชน 2คน
+    {3, 157, 215},   // unvacc ประชาชน 26คน
     {61, 34, 82},    // sol astra 10 คน
     {40, 71, 55},    // phizer 2 ทหาร 10 คน
 };
 
-//node class
+// node class
 class People
 {
 public:
@@ -137,11 +132,11 @@ void People::setIPV4(string address, string netmask)
 {
     ipv4.SetBase(Ipv4Address(address.c_str()), Ipv4Mask(netmask.c_str()));
     interface = ipv4.Assign(device);
-    serverAddress = Address(interface.GetAddress(74));
+    serverAddress = Address(interface.GetAddress(54));
 }
 
 void People::setUDPClient(int people_id, Time startTime)
-{ // เสมือนติดตั้งตัวแพร่เชื้อ (ให้เฉพาะคนติดโควิด)
+{ 
     uint32_t packetSize = 1024;
     uint32_t maxPacketCount = 1000;
     Time interPacketInterval = MilliSeconds(50);
@@ -149,15 +144,9 @@ void People::setUDPClient(int people_id, Time startTime)
     client.SetAttribute("MaxPackets", UintegerValue(maxPacketCount));
     client.SetAttribute("Interval", TimeValue(interPacketInterval));
     client.SetAttribute("PacketSize", UintegerValue(packetSize));
-
-    // ถ้าติดก็เปลี่ยนสีพร้อมลงตัวแพร่เชื้อ
-    if (is_infected[people_id] == false)
-    {
-        is_infected[people_id] = true;
-        apps = client.Install(node.Get(people_id));
-        apps.Start(startTime);
-        apps.Stop(Seconds(DURATION));
-    }
+    apps = client.Install(node.Get(people_id));
+    apps.Start(startTime);
+    apps.Stop(Seconds(DURATION));
 }
 
 void People::setMobility()
@@ -225,16 +214,15 @@ bool People::receiveCOVID(
         double distance = sqrt(pow(dst_x - src_x, 2) + pow(dst_y - src_y, 2));
         if (distance < INFECTRAD)
         {
-            // double chance = (1 - (distance / INFECTRAD)) * INFECTCHANCE; // โอกาสติดโควิด
             double random = ((double)rand() / RAND_MAX) * 100;
+            // int dst_node_id = getNodeIdFromAddress(dst);
+            int src_node_id = getNodeIdFromAddress(src);
 
             // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
-            if (random <= 50.0)
+            if (1 <= src_node_id && src_node_id <= 7)
             {
-                // int dst_node_id = getNodeIdFromAddress(dst);
-                // people.setUDPClient(dst_node_id, Simulator::Now());
-                pAnim->UpdateNodeColor(dst_device->GetNode(), colors[7].r, colors[7].g, colors[7].b);
-                // printf("source (%lf,%lf) -> dest (%lf,%lf) = %lf \n", src_x, src_y, dst_x, dst_y, distance);
+                if(random <= 2.45 )
+                pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
             }
         }
     }
@@ -266,28 +254,20 @@ int main(int argc, char *argv[])
     people.setCSMA(5000000, 0, 1400);
 
     // setIPV4 -> ip, netmask
-    people.setIPV4("10.10.100.0", "255.255.255.0");
+    people.setIPV4("10.10.200.0", "255.255.255.0");
 
     // แยกพ่อค้ากับลูกค้า (เคลื่อนไหวได้กับไม่ได้)
     people.setMobility();
-
-    // ตั้ง udp client ตัวแพร่เชื้อ -> คนที่ติดเชื้อ
-    int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
-    for (int i = 0; i < arr_size; i++)
+    
+    //set udp client
+    for (int i = 1; i < 100; i++)
     {
-        people.setUDPClient(infected_list[i], Seconds(0.0));
+        if (i != 54)
+        {
+            people.setUDPClient(i, Seconds(0.0));
+        }
     }
 
-    // #define PEOPLE_SHINOVAC 7
-    // #define PEOPLE_ASTRA 2
-
-    // #define PEOPLE_MODERNA 2
-    // #define PEOPLE_SIAS 37
-    // #define PEOPLE_ASPRI 6
-    // #define PEOPLE_INFECT 1
-    // #define PEOPLE_UNVAC 26
-    // #define SOLIDER_ASTRA 10
-    // #define SOLIDER_Pfizer 10
     Simulator::Schedule(Seconds(0.00),
                         []()
                         {
@@ -311,7 +291,7 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[3].r, colors[3].g, colors[3].b);
                             }
-                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI +1; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[4].r, colors[4].g, colors[4].b);
@@ -321,7 +301,7 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[5].r, colors[5].g, colors[5].b);
                             }
-                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT +1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + 1; i++)
+                            for (int i = PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + 1; i < PEOPLE_SHINOVAC + PEOPLE_ASTRA + PEOPLE_MODERNA + PEOPLE_SIAS + PEOPLE_ASPRI + PEOPLE_INFECT + PEOPLE_UNVAC + SOLIDER_ASTRA + 1; i++)
                             {
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[6].r, colors[6].g, colors[6].b);
@@ -336,11 +316,6 @@ int main(int argc, char *argv[])
                                 pAnim->UpdateNodeSize(i, NodeSide, NodeSide);
                                 pAnim->UpdateNodeColor(people.node.Get(i), colors[8].r, colors[8].g, colors[8].b);
                             }
-                            int arr_size = sizeof(infected_list) / sizeof(infected_list[0]);
-                            for (int i = 0; i < arr_size; i++)
-                            {
-                                pAnim->UpdateNodeColor(people.node.Get(infected_list[0]), colors[7].r, colors[7].g, colors[7].b);
-                            }
                         });
 
     // จบ Simulation
@@ -348,7 +323,6 @@ int main(int argc, char *argv[])
 
     // ไฟล์ NetAnimation
     pAnim = new AnimationInterface("covid-model.xml");
-    // pAnim->EnablePacketMetadata (true); // แสดงประเภท packet บนลูกศร
     pAnim->SetMaxPktsPerTraceFile(1000000);
 
     Simulator::Run();
