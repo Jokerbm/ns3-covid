@@ -43,7 +43,7 @@
 #define NodeSide 3.0
 using namespace ns3;
 using namespace std;
-bool infected[] = {}
+// bool infected[] = {false, false};
 
 // set RGB colors
 struct rgb
@@ -162,7 +162,7 @@ void People::setMobility()
                                        "X", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(X_BOX) + "]"),
                                        "Y", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
                                        "Z", StringValue("ns3::UniformRandomVariable[Min=0|Max=10]"));
-    for (int i = 1; i < 100; i++)
+    for (int i = 0; i < 100; i++)
     {
         mobility_move.Install(node.Get(i));
     }
@@ -185,7 +185,7 @@ bool People::receiveCOVID(
         double random = ((double)rand() / RAND_MAX) * 100;
         // int dst_node_id = getNodeIdFromAddress(dst);
         int src_node_id = getNodeIdFromAddress(src);
-        if (infected[src_node_id] != true)
+        // if (infected[src_node_id] != true)
         {
             if (1 <= src_node_id && src_node_id <= 7)
             {
@@ -202,7 +202,7 @@ bool People::receiveCOVID(
                 if (random <= 1.05)
                 {
                     printf("node: %d \n", src_node_id);
-                    infected[src_node_id] = true;
+                    // infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
@@ -211,7 +211,7 @@ bool People::receiveCOVID(
                 if (random <= 0.3)
                 {
                     printf("node: %d \n", src_node_id);
-                    infected[src_node_id] = true;
+                    // infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
@@ -220,7 +220,7 @@ bool People::receiveCOVID(
                 if (random <= 1.1)
                 {
                     printf("node: %d \n", src_node_id);
-                    infected[src_node_id] = true;
+                    // infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
@@ -229,7 +229,7 @@ bool People::receiveCOVID(
                 if (random <= 0.5)
                 {
                     printf("node: %d \n", src_node_id);
-                    infected[src_node_id] = true;
+                    // infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
@@ -238,7 +238,7 @@ bool People::receiveCOVID(
                 if (random <= 5.0)
                 {
                     printf("node: %d \n", src_node_id);
-                    infected[src_node_id] = true;
+                    // infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
@@ -247,7 +247,7 @@ bool People::receiveCOVID(
                 if (random <= 1.05)
                 {
                     printf("node: %d \n", src_node_id);
-                    infected[src_node_id] = true;
+                    // infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
@@ -256,11 +256,11 @@ bool People::receiveCOVID(
                 if (random <= 0.25)
                 {
                     printf("node: %d \n", src_node_id);
-                    infected[src_node_id] = true;
+                    // infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
-        }
+        // }
     }
 
     return true;
@@ -303,6 +303,10 @@ int main(int argc, char *argv[])
             people.setUDPClient(i, Seconds(0.0));
         }
     }
+    // for (int i = 0; i < 101; i++)
+    // {
+    //     infected[i] = false;
+    // }
 
     Simulator::Schedule(Seconds(0.00),
                         []()
