@@ -1,22 +1,22 @@
 // หน้ากาก = 95 % ลดอัตรการแพร่เชื้อ 90 %
 // วัคซีน
 // 1. shinovac 2 เข็ม กัน 51%
-// ประชาชน 7คน
+// ประชาชน 7คน#
 // 2. astra 2 เข็มกัน 79%
-// ประชาชน 2คน
-// ทหาร 10คน #
+// ประชาชน 2คน#
+// ทหาร 10คน
 // 3. pfizer 2 เข็มกัน 95%
-// ทหาร 10คน #
+// ทหาร 10คน
 // 4. moderna 1  94%
 // ประชาชน 1คน #
 // 5. shiv + astra 78%
-// ประชาชน 37คน #
+// ประชาชน 37คน
 // 6. astra + pfizser 90%
-// ประชาชน  6คน #
+// ประชาชน  6คน
 // 7. คนติดโควิต
-// ประชาชน 1 คน #
+// ประชาชน 1 คน
 // 8. unvaccineted
-// ประชาชน 26คน #
+// ประชาชน 26คน
 
 #include <ostream>
 #include "ns3/applications-module.h"
@@ -136,7 +136,7 @@ void People::setIPV4(string address, string netmask)
 }
 
 void People::setUDPClient(int people_id, Time startTime)
-{ 
+{
     uint32_t packetSize = 1024;
     uint32_t maxPacketCount = 1000;
     Time interPacketInterval = MilliSeconds(50);
@@ -221,8 +221,28 @@ bool People::receiveCOVID(
             // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
             if (1 <= src_node_id && src_node_id <= 7)
             {
-                if(random <= 2.45 )
-                pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                printf("node: %d", src_node_id);
+                if (random <= 2.45)
+                {
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
+            }
+
+            else if (8 <= src_node_id && src_node_id <= 9)
+            {
+                printf("node: %d", src_node_id);
+                if (random <= 1.05)
+                {
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
+            }
+            else if (10 <= src_node_id && src_node_id <= 10)
+            {
+                printf("node: %d", src_node_id);
+                if (random <= 0.3)
+                {
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
             }
         }
     }
@@ -258,8 +278,8 @@ int main(int argc, char *argv[])
 
     // แยกพ่อค้ากับลูกค้า (เคลื่อนไหวได้กับไม่ได้)
     people.setMobility();
-    
-    //set udp client
+
+    // set udp client
     for (int i = 1; i < 100; i++)
     {
         if (i != 54)
