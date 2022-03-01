@@ -41,13 +41,9 @@
 #define X_BOX 100
 #define Y_BOX 100
 #define NodeSide 3.0
-
-#define INFECTRAD 2 // ระยะห่างที่ปลอดภัย (จำลอง 2 เมตร)
-// id of infected node
-// int infected_list[] = {54, 55};
-
 using namespace ns3;
 using namespace std;
+bool infected[] = {}
 
 // set RGB colors
 struct rgb
@@ -63,7 +59,7 @@ struct rgb colors[] = {
     {135, 190, 219}, // moderna 2 ประชาชน 1 คน
     {216, 133, 219}, // si+as ประชาชน 37 คน
     {162, 218, 143}, // as+phi ประชาชน 6 คน
-    {255, 0, 0},     // people ติดเชื้อ ประชาชน 2คน
+    {255, 0, 0},     // people ติดเชื้อ ประชาชน 1คน
     {3, 157, 215},   // unvacc ประชาชน 26คน
     {61, 34, 82},    // sol astra 10 คน
     {40, 71, 55},    // phizer 2 ทหาร 10 คน
@@ -151,7 +147,7 @@ void People::setUDPClient(int people_id, Time startTime)
 
 void People::setMobility()
 {
-    // การเคลื่อนไหวของลูกค้าที่เดินไป-มา
+    // เดินแบบ random
     mobility_move.SetMobilityModel("ns3::GaussMarkovMobilityModel",
                                    "Bounds", BoxValue(Box(0, X_BOX, 0, Y_BOX, 0, 10)),
                                    "TimeStep", TimeValue(MilliSeconds(10)),
@@ -166,20 +162,9 @@ void People::setMobility()
                                        "X", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(X_BOX) + "]"),
                                        "Y", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
                                        "Z", StringValue("ns3::UniformRandomVariable[Min=0|Max=10]"));
-
-    // การเคลื่อนไหวของพ่อค้าที่ยืนเฝ้าร้านอย่างเดียว
-    mobility_nomove.SetPositionAllocator("ns3::RandomBoxPositionAllocator",
-                                         "X", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(X_BOX) + "]"),
-                                         "Y", StringValue("ns3::UniformRandomVariable[Min=0|Max=" + to_string(Y_BOX) + "]"),
-                                         "Z", StringValue("ns3::UniformRandomVariable[Min=0|Max=10]"));
-
-    for (int i = 0; i < solider_count; i++)
+    for (int i = 1; i < 100; i++)
     {
         mobility_move.Install(node.Get(i));
-    }
-    for (int i = solider_count; i < people_count; i++)
-    {
-        mobility_nomove.Install(node.Get(i));
     }
 }
 
@@ -196,51 +181,82 @@ bool People::receiveCOVID(
     // เช็คดูว่าเป็น UDP ไหม (ดูขนาด packet) เพื่อกรอง arp ออก
     if (packet->GetSize() > 1000)
     {
-        // คำนวณโอกาสติด
-        // เอา pos จาก device ปลายทาง
-        // Packet::EnablePrinting();
-        // packet->Print(cout);
 
-        // ดึง pos (x,y) ของต้นทางและปลายทางมาคำนวณระยะห่าง ยิ่งใกล้ยิ่งติดง่าย
-        Ptr<MobilityModel> dst_mob = dst_device->GetNode()->GetObject<MobilityModel>();
-        double dst_x = dst_mob->GetPosition().x;
-        double dst_y = dst_mob->GetPosition().y;
-
-        Ptr<Node> src_node = node.Get(getNodeIdFromAddress(src));
-        Ptr<MobilityModel> src_mob = src_node->GetObject<MobilityModel>();
-        double src_x = src_mob->GetPosition().x;
-        double src_y = src_mob->GetPosition().y;
-
-        double distance = sqrt(pow(dst_x - src_x, 2) + pow(dst_y - src_y, 2));
-        if (distance < INFECTRAD)
+        double random = ((double)rand() / RAND_MAX) * 100;
+        // int dst_node_id = getNodeIdFromAddress(dst);
+        int src_node_id = getNodeIdFromAddress(src);
+        if (infected[src_node_id] != true)
         {
-            double random = ((double)rand() / RAND_MAX) * 100;
-            // int dst_node_id = getNodeIdFromAddress(dst);
-            int src_node_id = getNodeIdFromAddress(src);
-
-            // เช็คว่าตัวเลขที่สุ่มจะเป็นเลขติดโควิดหรือไม่
             if (1 <= src_node_id && src_node_id <= 7)
             {
-                printf("node: %d", src_node_id);
                 if (random <= 2.45)
                 {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
 
             else if (8 <= src_node_id && src_node_id <= 9)
             {
-                printf("node: %d", src_node_id);
                 if (random <= 1.05)
                 {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
-            else if (10 <= src_node_id && src_node_id <= 10)
+            else if (10 == src_node_id)
             {
-                printf("node: %d", src_node_id);
                 if (random <= 0.3)
                 {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
+            }
+            else if (11 <= src_node_id && src_node_id <= 47)
+            {
+                if (random <= 1.1)
+                {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
+            }
+            else if (48 <= src_node_id && src_node_id <= 53)
+            {
+                if (random <= 0.5)
+                {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
+            }
+            else if (54 <= src_node_id && src_node_id <= 80)
+            {
+                if (random <= 5.0)
+                {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
+            }
+            else if (80 <= src_node_id && src_node_id <= 90)
+            {
+                if (random <= 1.05)
+                {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
+                    pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
+                }
+            }
+            else if (90 <= src_node_id && src_node_id <= 100)
+            {
+                if (random <= 0.25)
+                {
+                    printf("node: %d \n", src_node_id);
+                    infected[src_node_id] = true;
                     pAnim->UpdateNodeColor(people.node.Get(src_node_id), colors[5].r, colors[5].g, colors[5].b);
                 }
             }
